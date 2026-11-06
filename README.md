@@ -2,6 +2,11 @@
 
 PWA de gestion universitaire (emploi du temps, notes, absences, annonces) — Next.js 16 (App Router), Server Actions, MongoDB/Mongoose, Tailwind.
 
+## Prérequis
+
+- Node.js **20.19 ou plus** (22 recommandé, voir `.nvmrc`)
+- Docker (ou un MongoDB local)
+
 ## Démarrage
 
 ```bash
