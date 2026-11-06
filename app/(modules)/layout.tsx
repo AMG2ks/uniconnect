@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { getSession, type Role } from "@/lib/session";
 import { Nav, type NavItem } from "@/components/Nav";
-import { logout } from "@/app/login/actions";
+import { LogoutButton } from "@/components/LogoutButton";
 import { SyncManager } from "@/components/SyncManager";
 
 const menus: Record<Role, NavItem[]> = {
@@ -41,9 +41,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         <header className="flex items-center justify-between border-b border-slate-200 bg-white px-4 py-3">
           <p className="font-bold text-teal-700 md:hidden">UniConnect</p>
           <p className="hidden text-sm text-slate-600 md:block">{s.nom} · {s.role}</p>
-          <form action={logout}>
-            <button className="min-h-11 rounded-lg px-3 text-sm text-slate-700 hover:bg-slate-100">Déconnexion</button>
-          </form>
+          <LogoutButton />
         </header>
         <SyncManager />
         <main className="mx-auto w-full max-w-5xl flex-1 p-4">{children}</main>
