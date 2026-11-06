@@ -1,5 +1,5 @@
 "use client";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { useFormStatus } from "react-dom";
 import type { ActionState } from "@/lib/utils";
 
@@ -26,6 +26,12 @@ export function ActionForm({
   className?: string;
 }) {
   const [state, formAction] = useActionState(action, undefined);
+  // Notification globale: reste visible même si la liste est rechargée après la mutation.
+  useEffect(() => {
+    if (state?.ok || state?.error) {
+      window.dispatchEvent(new CustomEvent("uc-toast", { detail: { ok: !!state.ok, text: state.ok ? "Enregistré ✔" : state.error } }));
+    }
+  }, [state]);
   return (
     <form action={formAction} className={className}>
       {children}

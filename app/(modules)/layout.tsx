@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getSession, type Role } from "@/lib/session";
 import { Nav, type NavItem } from "@/components/Nav";
 import { LogoutButton } from "@/components/LogoutButton";
+import { Toast } from "@/components/Toast";
 import { SyncManager } from "@/components/SyncManager";
 
 const menus: Record<Role, NavItem[]> = {
@@ -44,6 +45,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           <LogoutButton />
         </header>
         <SyncManager />
+        <Toast />
         <main className="mx-auto w-full max-w-5xl flex-1 p-4">{children}</main>
       </div>
     </div>
