@@ -15,8 +15,8 @@ export function Toast() {
   }, []);
   if (!t) return null;
   return (
-    <div role="status" aria-live="polite" className={`fixed inset-x-4 bottom-20 z-30 mx-auto max-w-sm rounded-xl px-4 py-3 text-sm font-medium text-white shadow-lg md:bottom-6 ${t.ok ? "bg-teal-700" : "bg-red-700"}`}>
-      {t.text}
+    <div role="status" aria-live="polite" className={`fixed inset-x-4 bottom-24 z-30 mx-auto flex max-w-sm items-center gap-2 rounded-2xl px-4 py-3 text-sm font-medium text-white shadow-xl md:bottom-6 ${t.ok ? "bg-brand-800" : "bg-red-700"}`}>
+      <span aria-hidden="true">{t.ok ? "✓" : "!"}</span>{t.text}
     </div>
   );
 }

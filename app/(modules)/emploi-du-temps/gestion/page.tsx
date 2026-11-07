@@ -5,7 +5,7 @@ import { ActionForm, DeleteForm, Field, SubmitButton, inputCls } from "@/compone
 import { AffSelect } from "./AffSelect";
 import { saveSeance, deleteSeance, saveSalle, deleteSalle } from "../actions";
 
-const card = "rounded-xl bg-white p-4 shadow-sm";
+const card = "card";
 
 export default async function GestionPlanning() {
   await connectDB();
@@ -27,9 +27,9 @@ export default async function GestionPlanning() {
   );
   return (
     <div className="grid gap-8">
-      <h1 className="text-2xl font-bold">Gestion de l'emploi du temps</h1>
+      <h1 className="page-title">Gestion de l'emploi du temps</h1>
       <section className="grid gap-3">
-        <h2 className="text-lg font-semibold">Salles</h2>
+        <h2 className="section-title">Salles</h2>
         <div className={card}>
           <ActionForm action={saveSalle} className="grid gap-3 sm:grid-cols-3">
             <Field label="Nom"><input name="nom" required className={inputCls} /></Field>
@@ -51,7 +51,7 @@ export default async function GestionPlanning() {
         ))}
       </section>
       <section className="grid gap-3">
-        <h2 className="text-lg font-semibold">Séances</h2>
+        <h2 className="section-title">Séances</h2>
         <div className={card}>{salles.length && affs.length ? seanceForm() : <p className="text-sm">Créez d'abord une salle et une affectation.</p>}</div>
         {seances.map((x: any) => (
           <details key={x._id} className={card}>

@@ -4,11 +4,12 @@ import { getSession } from "@/lib/session";
 import { Absence, Justificatif, Seance, User } from "@/models";
 import { JOURS, plain } from "@/lib/utils";
 import { tauxAbsences, SEUIL_ABSENCE } from "@/lib/absences";
+import { Icon } from "@/components/Icons";
 import { AbsenceEntry } from "@/components/AbsenceEntry";
 import { ActionForm, DeleteForm, Field, SubmitButton, inputCls } from "@/components/ActionForm";
 import { decideJustificatif, deleteAbsence, deleteJustificatif, submitJustificatif } from "./actions";
 
-const card = "rounded-xl bg-white p-4 shadow-sm";
+const card = "card";
 const fr = (d: string) => new Date(d).toLocaleDateString("fr-FR");
 
 export default async function AbsencesPage({ searchParams }: { searchParams: Promise<{ seance?: string; date?: string }> }) {
@@ -28,9 +29,9 @@ export default async function AbsencesPage({ searchParams }: { searchParams: Pro
   const aTraiter = justifs.filter((j) => mySeanceIds.includes(j.absence?.seance?._id));
   return (
     <div className="grid gap-6">
-      <h1 className="text-2xl font-bold">Absences</h1>
+      <h1 className="page-title">Absences</h1>
       <section className="grid gap-3">
-        <h2 className="text-lg font-semibold">Faire l'appel</h2>
+        <h2 className="section-title">Faire l'appel</h2>
         <form className="grid gap-3 sm:grid-cols-3">
           <Field label="Séance">
             <select name="seance" defaultValue={cur?._id} className={inputCls}>
@@ -44,13 +45,13 @@ export default async function AbsencesPage({ searchParams }: { searchParams: Pro
         {cur && <AbsenceEntry key={cur._id + day} seance={cur._id} date={day} students={students.map((e) => ({ _id: e._id, nom: e.nom, absent: existing.some((a) => a.etudiant === e._id) }))} />}
       </section>
       <section className="grid gap-3">
-        <h2 className="text-lg font-semibold">Justificatifs à traiter ({aTraiter.length})</h2>
-        {aTraiter.length === 0 && <p className="text-sm text-slate-600">Aucun justificatif en attente.</p>}
+        <h2 className="section-title">Justificatifs à traiter ({aTraiter.length})</h2>
+        {aTraiter.length === 0 && <div className="card-sm text-sm text-muted">Aucun justificatif en attente.</div>}
         {aTraiter.map((j) => (
           <div key={j._id} className={card}>
             <p className="font-semibold">{j.absence.etudiant?.nom} — {j.absence.seance?.matiere?.nom} le {fr(j.absence.date)}</p>
             <p className="text-sm">{j.motif}</p>
-            {j.pieceJointe && <a className="text-sm text-teal-700 underline" href={j.pieceJointe} target="_blank" rel="noreferrer">Pièce jointe</a>}
+            {j.pieceJointe && <a className="text-sm text-brand-700 underline" href={j.pieceJointe} target="_blank" rel="noreferrer">Pièce jointe</a>}
             <div className="mt-2 flex gap-2">
               {(["accepte", "refuse"] as const).map((d) => (
                 <ActionForm key={d} action={decideJustificatif} className="inline-grid">
@@ -64,7 +65,7 @@ export default async function AbsencesPage({ searchParams }: { searchParams: Pro
       </section>
       {cur && existing.length > 0 && (
         <section className="grid gap-2">
-          <h2 className="text-lg font-semibold">Absences enregistrées ce jour</h2>
+          <h2 className="section-title">Absences enregistrées ce jour</h2>
           {existing.map((a) => (
             <div key={a._id} className={`${card} flex items-center justify-between`}>
               <span>{students.find((e) => e._id === a.etudiant)?.nom} {a.justifiee && "(justifiée)"}</span>
@@ -86,27 +87,27 @@ async function Etudiant({ userId }: { userId: string }) {
   const justifs: any[] = await Justificatif.find({ absence: { $in: absences.map((a) => a._id) } }).lean().then(plain);
   return (
     <div className="grid gap-6">
-      <h1 className="text-2xl font-bold">Mes absences</h1>
+      <h1 className="page-title">Mes absences</h1>
       <section className="grid gap-2" aria-label="Taux d'absence">
         {taux.map((t) => (
           <div key={t.nom} className={`${card} ${t.alerte ? "border-l-4 border-red-600" : ""}`}>
             <p className="font-semibold">{t.nom}: {(t.taux * 100).toFixed(0)} % <span className="text-xs font-normal text-slate-600">({t.absences} absence(s) non justifiée(s))</span></p>
-            {t.alerte && <p role="alert" className="text-sm font-semibold text-red-700">⚠️ Seuil de {SEUIL_ABSENCE * 100} % dépassé : risque d'exclusion.</p>}
+            {t.alerte && <p role="alert" className="mt-1 flex items-center gap-1.5 text-sm font-semibold text-red-700"><Icon name="alert" className="size-4" />Seuil de {SEUIL_ABSENCE * 100} % dépassé : risque d'exclusion.</p>}
           </div>
         ))}
       </section>
       <section className="grid gap-3">
-        <h2 className="text-lg font-semibold">Historique</h2>
+        <h2 className="section-title">Historique</h2>
         {absences.length === 0 && <p className="text-sm text-slate-600">Aucune absence 🎉</p>}
         {absences.map((a) => {
           const j = justifs.find((x) => x.absence === a._id);
           return (
             <div key={a._id} className={card}>
-              <p className="font-semibold">{a.seance?.matiere?.nom} — {fr(a.date)} {a.justifiee ? "✅ justifiée" : ""}</p>
+              <p className="font-semibold">{a.seance?.matiere?.nom} — {fr(a.date)} {a.justifiee && <span className="badge ml-1">justifiée</span>}</p>
               {j && <p className="text-sm">Justificatif : {j.motif} — <strong>{j.decision.replace("_", " ")}</strong></p>}
               {!a.justifiee && (!j || j.decision !== "accepte") && (
                 <details className="mt-2">
-                  <summary className="min-h-11 cursor-pointer content-center text-sm text-teal-700">{j ? "Modifier le justificatif" : "Soumettre un justificatif"}</summary>
+                  <summary className="min-h-11 cursor-pointer content-center text-sm text-brand-700">{j ? "Modifier le justificatif" : "Soumettre un justificatif"}</summary>
                   <ActionForm action={submitJustificatif}>
                     <input type="hidden" name="absence" value={a._id} />
                     <Field label="Motif"><textarea name="motif" required minLength={5} defaultValue={j?.motif} className={`${inputCls} py-2`} /></Field>

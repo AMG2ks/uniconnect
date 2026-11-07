@@ -6,12 +6,9 @@ import type { ActionState } from "@/lib/utils";
 export function SubmitButton({ children, className = "", danger = false }: { children: React.ReactNode; className?: string; danger?: boolean }) {
   const { pending } = useFormStatus();
   return (
-    <button
-      type="submit"
-      disabled={pending}
-      className={`min-h-11 rounded-lg px-4 text-sm font-medium text-white disabled:opacity-60 ${danger ? "bg-red-600 hover:bg-red-700" : "bg-teal-700 hover:bg-teal-800"} ${className}`}
-    >
-      {pending ? "…" : children}
+    <button type="submit" disabled={pending} className={`${danger ? "btn-danger" : "btn-primary"} ${className}`}>
+      {pending && <span className="size-4 animate-spin rounded-full border-2 border-current border-t-transparent" aria-hidden="true" />}
+      <span>{children}</span>
     </button>
   );
 }
@@ -35,8 +32,8 @@ export function ActionForm({
   return (
     <form action={formAction} className={className}>
       {children}
-      {state?.error && <p role="alert" className="text-sm text-red-700">{state.error}</p>}
-      {state?.ok && <p role="status" className="text-sm text-teal-700">Enregistré ✔</p>}
+      {state?.error && <p role="alert" className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{state.error}</p>}
+      {state?.ok && <p role="status" className="text-sm font-medium text-brand-700">Enregistré ✔</p>}
     </form>
   );
 }
@@ -50,11 +47,11 @@ export function DeleteForm({ action, id, label = "Supprimer" }: { action: (prev:
   );
 }
 
-export const inputCls = "min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm focus:outline-2 focus:outline-teal-600";
+export const inputCls = "field";
 
 export function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <label className="grid gap-1 text-sm font-medium text-slate-700">
+    <label className="grid gap-1.5 text-sm font-medium text-slate-700">
       {label}
       {children}
     </label>

@@ -45,19 +45,19 @@ export default async function AnnoncesPage({ searchParams }: { searchParams: Pro
   );
   return (
     <div className="grid gap-4">
-      <h1 className="text-2xl font-bold">Annonces</h1>
-      {canWrite && <section className="rounded-xl bg-white p-4 shadow-sm"><h2 className="mb-3 font-semibold">Nouvelle annonce</h2>{form()}</section>}
+      <h1 className="page-title">Annonces</h1>
+      {canWrite && <section className="card"><h2 className="mb-3 font-semibold">Nouvelle annonce</h2>{form()}</section>}
       {list.length === 0 && <p className="text-slate-600">Aucune annonce.</p>}
       {list.map((a) => {
         const mine = s.role === "admin" || a.auteur?._id === s.userId;
         return (
-          <article key={a._id} className="rounded-xl bg-white p-4 shadow-sm">
+          <article key={a._id} className="card">
             <h2 className="font-semibold">{a.titre}</h2>
             <p className="text-xs text-slate-600">{new Date(a.date).toLocaleDateString("fr-FR")} · {a.auteur?.nom} · {a.portee === "generale" ? "Générale" : a.groupe?.nom}</p>
             <p className="mt-2 whitespace-pre-wrap text-sm">{a.contenu}</p>
             {canWrite && mine && (
               <details className="mt-2">
-                <summary className="min-h-11 cursor-pointer content-center text-sm text-teal-700">Modifier / supprimer</summary>
+                <summary className="min-h-11 cursor-pointer content-center text-sm text-brand-700">Modifier / supprimer</summary>
                 {form(a)}
                 <div className="mt-2"><DeleteForm action={deleteAnnonce} id={a._id} /></div>
               </details>

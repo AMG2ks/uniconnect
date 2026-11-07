@@ -10,7 +10,7 @@ export default async function ProfilPage() {
   const u: any = await User.findById(s.userId).select("-motDePasse").lean();
   return (
     <div className="grid max-w-md gap-4">
-      <h1 className="text-2xl font-bold">Mon profil</h1>
+      <h1 className="page-title">Mon profil</h1>
       <p className="text-sm text-slate-600">{u.email} · {u.role}</p>
       <ActionForm action={updateProfile}>
         <Field label="Nom"><input name="nom" defaultValue={u.nom} required className={inputCls} /></Field>

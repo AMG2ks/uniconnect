@@ -1,26 +1,61 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --color-brand-50: #effaf8;
+  --color-brand-100: #d5f2ee;
+  --color-brand-200: #a9e5de;
+  --color-brand-500: #14a89a;
+  --color-brand-600: #0f8f84;
+  --color-brand-700: #0d746c;
+  --color-brand-800: #0f5c57;
+  --color-brand-900: #114b48;
+  --color-ink: #1c2b33;
+  --color-muted: #5b6b75;
+  --color-canvas: #f4f7f8;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+:root { color-scheme: light; }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+html { -webkit-tap-highlight-color: transparent; }
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  line-height: 1.5;
 }
+
+@layer components {
+  .card { @apply rounded-2xl border border-slate-200/70 bg-white p-4 shadow-[0_1px_2px_rgba(16,40,46,0.05),0_4px_16px_-8px_rgba(16,40,46,0.08)]; }
+  .card-sm { @apply rounded-xl border border-slate-200/70 bg-white p-3 shadow-[0_1px_2px_rgba(16,40,46,0.05)]; }
+  .page-title { @apply text-2xl font-semibold tracking-tight text-ink; }
+  .section-title { @apply text-base font-semibold text-ink; }
+  .muted { @apply text-sm text-muted; }
+
+  .btn, .btn-primary, .btn-danger, .btn-ghost { @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-4 text-sm font-medium transition duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60; }
+  .btn-primary { @apply bg-brand-700 text-white shadow-sm hover:bg-brand-800; }
+  .btn-danger { @apply border border-red-200 bg-red-50 text-red-700 hover:bg-red-100; }
+  .btn-ghost { @apply border border-slate-200 bg-white text-slate-700 hover:bg-slate-50; }
+
+  .field { @apply min-h-11 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-ink placeholder:text-slate-400 transition focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/15; }
+  textarea.field { @apply py-2.5; }
+
+  .badge { @apply inline-flex items-center rounded-full bg-brand-50 px-2.5 py-0.5 text-xs font-medium text-brand-800 ring-1 ring-inset ring-brand-100; }
+  .badge-warn { @apply inline-flex items-center rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-800 ring-1 ring-inset ring-amber-200; }
+  .badge-bad { @apply inline-flex items-center rounded-full bg-red-50 px-2.5 py-0.5 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-200; }
+}
+
+/* Accordéons (<details>) : flèche animée, plus de triangle natif */
+details > summary { list-style: none; cursor: pointer; }
+details > summary::-webkit-details-marker { display: none; }
+details > summary::after {
+  content: ""; float: right; margin-top: 0.55rem; width: 0.5rem; height: 0.5rem;
+  border-right: 2px solid #8a99a3; border-bottom: 2px solid #8a99a3;
+  transform: rotate(45deg); transition: transform 0.2s ease;
+}
+details[open] > summary::after { transform: rotate(-135deg); margin-top: 0.8rem; }
+details > summary:focus-visible { outline: 2px solid var(--color-brand-600); outline-offset: 2px; border-radius: 0.5rem; }
+
+@keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+main > * { animation: rise 0.25s ease both; }
+@media (prefers-reduced-motion: reduce) { main > *, details > summary::after { animation: none; transition: none; } }

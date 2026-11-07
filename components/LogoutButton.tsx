@@ -1,5 +1,6 @@
 "use client";
 import { logout } from "@/app/login/actions";
+import { Icon } from "./Icons";
 
 export function LogoutButton() {
   async function onSubmit() {
@@ -10,7 +11,9 @@ export function LogoutButton() {
   }
   return (
     <form action={logout} onSubmit={onSubmit}>
-      <button className="min-h-11 rounded-lg px-3 text-sm text-slate-700 hover:bg-slate-100">Déconnexion</button>
+      <button className="btn-ghost !min-h-10 !px-3" title="Se déconnecter">
+        <Icon name="logout" className="size-4" /><span className="hidden sm:inline">Déconnexion</span>
+      </button>
     </form>
   );
 }

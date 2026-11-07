@@ -10,7 +10,7 @@ export function Rewriter({ defaultValue }: { defaultValue?: string }) {
   return (
     <div className="grid gap-2">
       <Field label="Contenu"><textarea ref={ref} name="contenu" required rows={4} defaultValue={defaultValue} className={`${inputCls} py-2`} /></Field>
-      <button type="button" disabled={pending} className="min-h-11 rounded-lg border border-teal-700 px-3 text-sm text-teal-800"
+      <button type="button" disabled={pending} className="btn-ghost justify-self-start text-brand-800"
         onClick={() => start(async () => { const r = await rewriteAnnonce(ref.current?.value ?? ""); if (r.answer && ref.current) ref.current.value = r.answer; setErr(r.error ?? ""); })}>
         {pending ? "…" : "✨ Reformuler avec l'IA"}
       </button>

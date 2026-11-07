@@ -4,7 +4,7 @@ import { plain } from "@/lib/utils";
 import { ActionForm, DeleteForm, Field, SubmitButton, inputCls } from "@/components/ActionForm";
 import { saveDepartement, deleteDepartement, saveFiliere, deleteFiliere, saveGroupe, deleteGroupe, assignStudent } from "./actions";
 
-const card = "rounded-xl bg-white p-4 shadow-sm";
+const card = "card";
 
 export default async function StructurePage() {
   await connectDB();
@@ -24,10 +24,10 @@ export default async function StructurePage() {
   );
   return (
     <div className="grid gap-8">
-      <h1 className="text-2xl font-bold">Structure académique</h1>
+      <h1 className="page-title">Structure académique</h1>
 
       <section className="grid gap-3">
-        <h2 className="text-lg font-semibold">Départements</h2>
+        <h2 className="section-title">Départements</h2>
         <div className={card}>
           <ActionForm action={saveDepartement} className="grid gap-3 sm:grid-cols-3">
             <Field label="Nom"><input name="nom" required className={inputCls} /></Field>
@@ -50,7 +50,7 @@ export default async function StructurePage() {
       </section>
 
       <section className="grid gap-3">
-        <h2 className="text-lg font-semibold">Filières et niveaux</h2>
+        <h2 className="section-title">Filières et niveaux</h2>
         <div className={card}>
           <ActionForm action={saveFiliere} className="grid gap-3 sm:grid-cols-4">
             <Field label="Nom"><input name="nom" required className={inputCls} /></Field>
@@ -75,7 +75,7 @@ export default async function StructurePage() {
       </section>
 
       <section className="grid gap-3">
-        <h2 className="text-lg font-semibold">Groupes</h2>
+        <h2 className="section-title">Groupes</h2>
         <div className={card}>
           <ActionForm action={saveGroupe} className="grid gap-3 sm:grid-cols-3">
             <Field label="Nom"><input name="nom" required className={inputCls} /></Field>

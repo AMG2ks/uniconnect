@@ -30,15 +30,15 @@ export function AbsenceEntry({ seance, date, students }: { seance: string; date:
       <ul className="grid gap-2">
         {students.map((s) => (
           <li key={s._id}>
-            <label className="flex min-h-11 items-center gap-3 rounded-lg bg-white px-3 shadow-sm">
-              <input type="checkbox" className="size-5 accent-teal-700" checked={absents.includes(s._id)} onChange={() => toggle(s._id)} />
+            <label className="flex min-h-11 items-center gap-3 rounded-xl border border-slate-200/70 bg-white px-3 shadow-sm transition has-[:checked]:border-red-200 has-[:checked]:bg-red-50/50">
+              <input type="checkbox" className="size-5 accent-brand-700" checked={absents.includes(s._id)} onChange={() => toggle(s._id)} />
               <span>{s.nom}</span>
-              {absents.includes(s._id) && <span className="ml-auto text-xs font-semibold text-red-700">Absent</span>}
+              {absents.includes(s._id) && <span className="badge-bad ml-auto">Absent</span>}
             </label>
           </li>
         ))}
       </ul>
-      <button onClick={save} disabled={busy} className="min-h-11 rounded-lg bg-teal-700 px-4 text-sm font-medium text-white disabled:opacity-60">{busy ? "…" : "Enregistrer l'appel"}</button>
+      <button onClick={save} disabled={busy} className="btn-primary">{busy ? "…" : "Enregistrer l'appel"}</button>
       {msg && <p role="status" className="text-sm">{msg}</p>}
     </div>
   );

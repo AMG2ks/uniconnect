@@ -22,11 +22,11 @@ export default async function NotesPage({ searchParams }: { searchParams: Promis
   const notes: any[] = cur ? await Note.find({ matiere: cur.matiere._id, etudiant: { $in: students.map((e) => e._id) } }).lean().then(plain) : [];
   return (
     <div className="grid gap-4">
-      <h1 className="text-2xl font-bold">Saisie des notes</h1>
+      <h1 className="page-title">Saisie des notes</h1>
       {affs.length === 0 && <p>Aucune matière ne vous est affectée.</p>}
       <div className="flex flex-wrap gap-2">
         {affs.map((a) => (
-          <Link key={a._id} href={`/notes?aff=${a._id}`} className={`inline-flex min-h-11 items-center rounded-lg px-3 text-sm ${a._id === cur?._id ? "bg-teal-700 text-white" : "bg-white text-slate-700"}`}>{a.matiere.code} · {a.groupe.nom}</Link>
+          <Link key={a._id} href={`/notes?aff=${a._id}`} className={`btn ${a._id === cur?._id ? "bg-brand-700 text-white" : "border border-slate-200 bg-white text-slate-700 hover:bg-slate-50"}`}>{a.matiere.code} · {a.groupe.nom}</Link>
         ))}
       </div>
       {cur && (
@@ -36,7 +36,7 @@ export default async function NotesPage({ searchParams }: { searchParams: Promis
             const val = (t: string) => mine.find((n) => n.type === t)?.valeur;
             const moy = moyenneMatiere(mine);
             return (
-              <li key={e._id} className="rounded-xl bg-white p-4 shadow-sm">
+              <li key={e._id} className="card">
                 <ActionForm action={saveNotes} className="grid grid-cols-3 gap-2 sm:grid-cols-5">
                   <input type="hidden" name="etudiant" value={e._id} />
                   <input type="hidden" name="matiere" value={cur.matiere._id} />
@@ -66,8 +66,8 @@ async function Releve({ userId, nom }: { userId: string; nom: string }) {
   const r = buildReleve(mats, notes);
   return (
     <div className="grid gap-4">
-      <h1 className="text-2xl font-bold">Relevé de notes — {nom}</h1>
-      <div className="rounded-xl bg-teal-700 p-4 text-white">
+      <h1 className="page-title">Relevé de notes — {nom}</h1>
+      <div className="rounded-2xl bg-gradient-to-br from-brand-600 to-brand-900 p-5 text-white shadow-md">
         <p className="text-sm">Moyenne générale</p>
         <p className="text-3xl font-bold">{fmt(r.generale)} / 20</p>
         {r.generale !== null && <p>{mention(r.generale)}</p>}
@@ -82,7 +82,7 @@ async function Releve({ userId, nom }: { userId: string; nom: string }) {
       </div>
       <ul className="grid gap-3 md:hidden">
         {r.matieres.map((m) => (
-          <li key={m._id} className="rounded-xl bg-white p-4 shadow-sm">
+          <li key={m._id} className="card">
             <p className="font-semibold">{m.nom} <span className="text-xs text-slate-600">coef {m.coefficient}</span></p>
             <p className="text-sm">DS {fmt(m.notes.DS)} · TP {fmt(m.notes.TP)} · Examen {fmt(m.notes.examen)}</p>
             <p className="text-sm font-semibold">Moyenne {fmt(m.moyenne)} — {m.moyenne === null ? "en attente" : m.validee ? "Validée" : "Non validée"}</p>

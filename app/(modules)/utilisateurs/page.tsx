@@ -30,8 +30,8 @@ export default async function UsersPage({ searchParams }: { searchParams: Promis
   );
   return (
     <div className="grid gap-6">
-      <h1 className="text-2xl font-bold">Comptes utilisateurs</h1>
-      <section className="rounded-xl bg-white p-4 shadow-sm">
+      <h1 className="page-title">Comptes utilisateurs</h1>
+      <section className="card">
         <h2 className="mb-3 font-semibold">Nouveau compte</h2>
         <ActionForm action={createUser} className="grid gap-3 sm:grid-cols-2">
           <Field label="Nom"><input name="nom" required className={inputCls} /></Field>
@@ -45,11 +45,11 @@ export default async function UsersPage({ searchParams }: { searchParams: Promis
       <form className="flex gap-2"><input name="q" defaultValue={q} placeholder="Rechercher nom ou email" aria-label="Rechercher" className={inputCls} /><SubmitButton>Chercher</SubmitButton></form>
       <ul className="grid gap-3">
         {users.map((u: any) => (
-          <li key={u._id} className="rounded-xl bg-white p-4 shadow-sm">
+          <li key={u._id} className="card">
             <details>
               <summary className="flex min-h-11 cursor-pointer items-center justify-between gap-2">
                 <span><strong>{u.nom}</strong> <span className="text-sm text-slate-600">{u.email}</span></span>
-                <span className="rounded-full bg-teal-50 px-2 py-0.5 text-xs text-teal-800">{u.role}</span>
+                <span className="rounded-full bg-brand-50 px-2 py-0.5 text-xs text-brand-800">{u.role}</span>
               </summary>
               <ActionForm action={updateUser} className="mt-3 grid gap-3 sm:grid-cols-2">
                 <input type="hidden" name="id" value={u._id} />

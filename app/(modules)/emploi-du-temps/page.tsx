@@ -21,17 +21,17 @@ export default async function PlanningPage({ searchParams }: { searchParams: Pro
   return (
     <div className="grid gap-4">
       <div className="flex items-center justify-between gap-2">
-        <h1 className="text-2xl font-bold">Emploi du temps</h1>
-        {s.role === "admin" && <Link href="/emploi-du-temps/gestion" className="inline-flex min-h-11 items-center rounded-lg bg-teal-700 px-4 text-sm font-medium text-white">Gérer</Link>}
+        <h1 className="page-title">Emploi du temps</h1>
+        {s.role === "admin" && <Link href="/emploi-du-temps/gestion" className="btn-primary">Gérer</Link>}
       </div>
       <div className="grid gap-3 md:grid-cols-3 lg:grid-cols-6">
         {[1, 2, 3, 4, 5, 6].map((j) => (
-          <section key={j} aria-label={JOURS[j]} className="rounded-xl bg-white p-3 shadow-sm">
-            <h2 className="mb-2 text-sm font-bold text-teal-800">{JOURS[j]}</h2>
-            {byDay(j).length === 0 && <p className="text-xs text-slate-500">Aucune séance</p>}
+          <section key={j} aria-label={JOURS[j]} className="card-sm">
+            <h2 className="mb-2 flex items-center justify-between text-sm font-semibold text-brand-800">{JOURS[j]}{byDay(j).length > 0 && <span className="badge">{byDay(j).length}</span>}</h2>
+            {byDay(j).length === 0 && <p className="text-xs text-slate-400">Aucune séance</p>}
             <ul className="grid gap-2">
               {byDay(j).map((x) => (
-                <li key={x._id} className="rounded-lg border-l-4 border-teal-600 bg-teal-50 p-2 text-xs">
+                <li key={x._id} className="rounded-xl border-l-4 border-brand-500 bg-brand-50/70 p-2.5 text-xs">
                   <p className="font-semibold">{x.heureDebut}–{x.heureFin}</p>
                   <p>{x.matiere?.nom}</p>
                   <p className="text-slate-600">{x.salle?.nom} · {x.groupe?.nom}</p>

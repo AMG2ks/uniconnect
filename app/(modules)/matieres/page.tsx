@@ -4,7 +4,7 @@ import { plain } from "@/lib/utils";
 import { ActionForm, DeleteForm, Field, SubmitButton, inputCls } from "@/components/ActionForm";
 import { saveMatiere, deleteMatiere, saveAffectation, deleteAffectation } from "./actions";
 
-const card = "rounded-xl bg-white p-4 shadow-sm";
+const card = "card";
 const ANNEE = "2026-2027";
 
 export default async function MatieresPage() {
@@ -43,9 +43,9 @@ export default async function MatieresPage() {
   );
   return (
     <div className="grid gap-8">
-      <h1 className="text-2xl font-bold">Matières et affectations</h1>
+      <h1 className="page-title">Matières et affectations</h1>
       <section className="grid gap-3">
-        <h2 className="text-lg font-semibold">Matières (UE)</h2>
+        <h2 className="section-title">Matières (UE)</h2>
         <div className={card}>{matForm()}</div>
         {mats.map((m: any) => (
           <details key={m._id} className={card}>
@@ -56,7 +56,7 @@ export default async function MatieresPage() {
         ))}
       </section>
       <section className="grid gap-3">
-        <h2 className="text-lg font-semibold">Affectations enseignant ↔ matière ↔ groupe</h2>
+        <h2 className="section-title">Affectations enseignant ↔ matière ↔ groupe</h2>
         <div className={card}>{mats.length && profs.length && grps.length ? affForm() : <p className="text-sm">Créez d'abord matières, enseignants et groupes.</p>}</div>
         {affs.map((a: any) => (
           <details key={a._id} className={card}>

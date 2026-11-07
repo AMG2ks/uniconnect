@@ -31,7 +31,7 @@ export function SyncManager() {
 
   if (online && !count) return null;
   return (
-    <div role="status" className={`px-4 py-2 text-sm ${online ? "bg-teal-100 text-teal-900" : "bg-amber-100 text-amber-900"}`}>
+    <div role="status" className={`px-4 py-2 text-sm ${online ? "bg-brand-100 text-brand-900" : "bg-amber-100 text-amber-900"}`}>
       {online ? `Synchronisation de ${count} appel(s)…` : `Mode hors ligne${count ? ` — ${count} appel(s) en attente d'envoi` : ""}`}
     </div>
   );
